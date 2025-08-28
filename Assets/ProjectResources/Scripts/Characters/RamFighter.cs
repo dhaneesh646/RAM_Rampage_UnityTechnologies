@@ -1,6 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEditor.Animations;
+using TMPro;
 
 public class RamFighter : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class RamFighter : MonoBehaviour
     [SerializeField] int currentHealth;
     [SerializeField] float attackRange = 2f;
     [SerializeField] float moveSpeed = 3f;
+    [SerializeField] TMP_Text damageText;
     private Animator animator;
 
 
@@ -80,6 +82,9 @@ public class RamFighter : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        damageText.gameObject.SetActive(true);
+        damageText.text = "-" + damage.ToString();
+        Invoke("HideDamageText", 1f);
         if (currentHealth < 0) currentHealth = 0;
 
         if (healthBar != null)
@@ -95,6 +100,11 @@ public class RamFighter : MonoBehaviour
             animator.SetBool("IsAlive", false);
             animator.Play("Death");
         }
+    }
+
+    void HideDamageText()
+    {
+        damageText.gameObject.SetActive(false);
     }
 
     public void InitiateAttackSequence()

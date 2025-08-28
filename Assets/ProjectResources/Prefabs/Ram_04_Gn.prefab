@@ -1606,7 +1606,8 @@ MonoBehaviour:
   currentHealth: 0
   attackRange: 3
   moveSpeed: 3
-  minDamage: 20
-  maxDamage: 30
+  damageText: {fileID: 0}
+  minDamage: 15
+  maxDamage: 25
   criticalChance: 0.2
   criticalMultiplier: 1.5

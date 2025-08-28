@@ -9,7 +9,6 @@ public class RamBattleManager : MonoBehaviour
     private RamFighter ramA;
     private RamFighter ramB;
     public TMP_Text winnerText;
-    public TMP_Text combatLogText;
     public float postBattleDelay = 3f;
 
     private bool ramAAttackComplete = false;
@@ -80,7 +79,6 @@ public class RamBattleManager : MonoBehaviour
         if (ramB != null) ramB.ResetHealth();
 
         if (winnerText != null) winnerText.text = "";
-        if (combatLogText != null) combatLogText.text = "";
 
         yield return new WaitForSeconds(1f);
 
@@ -92,13 +90,7 @@ public class RamBattleManager : MonoBehaviour
 
         bool ramATurnFirst = Random.value > 0.5f;
 
-        if (combatLogText != null)
-        {
-            if (ramATurnFirst)
-                combatLogText.text += ramA.GetRamName() + " wins the initiative!";
-            else
-                combatLogText.text += ramB.GetRamName() + " wins the initiative!";
-        }
+        
 
         yield return new WaitForSeconds(1f);
 
@@ -106,8 +98,7 @@ public class RamBattleManager : MonoBehaviour
         {
             if (ramATurnFirst)
             {
-                if (combatLogText != null)
-                    combatLogText.text += ramA.GetRamName() + " attacks!";
+                
 
                 ramAAttackComplete = false;
                 ramA.InitiateAttackSequence();
@@ -117,8 +108,7 @@ public class RamBattleManager : MonoBehaviour
 
                 if (!ramB.IsAlive()) break;
 
-                if (combatLogText != null)
-                    combatLogText.text += ramB.GetRamName() + " attacks!";
+         
 
                 ramBAttackComplete = false;
                 ramB.InitiateAttackSequence();
@@ -128,8 +118,7 @@ public class RamBattleManager : MonoBehaviour
             }
             else
             {
-                if (combatLogText != null)
-                    combatLogText.text += ramB.GetRamName() + " attacks!";
+             
 
                 ramBAttackComplete = false;
                 ramB.InitiateAttackSequence();
@@ -139,8 +128,7 @@ public class RamBattleManager : MonoBehaviour
 
                 if (!ramA.IsAlive()) break;
 
-                if (combatLogText != null)
-                    combatLogText.text += ramA.GetRamName() + " attacks!";
+              
 
                 ramAAttackComplete = false;
                 ramA.InitiateAttackSequence();
@@ -149,32 +137,29 @@ public class RamBattleManager : MonoBehaviour
                 ramAAttackComplete = false;
             }
         }
+        yield return new WaitForSeconds(1f);
 
         if (ramA.IsAlive())
         {
             if (winnerText != null)
-                winnerText.text = "Winner: " + ramA.GetRamName();
-            if (combatLogText != null)
-                combatLogText.text += ramA.GetRamName() + " is victorious!";
+                resultpanel.SetActive(true);
+            winnerText.text = "Winner: " + ramA.GetRamName();
+
         }
         else if (ramB.IsAlive())
         {
             if (winnerText != null)
-                winnerText.text = "Winner: " + ramB.GetRamName();
-            if (combatLogText != null)
-                combatLogText.text += ramB.GetRamName() + " is victorious!";
+                resultpanel.SetActive(true);
+            winnerText.text = "Winner: " + ramB.GetRamName();
+
         }
         else
         {
             if (winnerText != null)
-                winnerText.text = "Draw!";
-            if (combatLogText != null)
-                combatLogText.text += "Both rams fell in battle!";
+                resultpanel.SetActive(true);
+            winnerText.text = "Draw!";
+
         }
-
-        yield return new WaitForSeconds(postBattleDelay);
-
-        StartBattle();
     }
 
     public void ForceNextTurn()
