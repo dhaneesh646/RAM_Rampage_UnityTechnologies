@@ -1606,7 +1606,7 @@ MonoBehaviour:
   currentHealth: 0
   attackRange: 3
   moveSpeed: 3
-  minDamage: 5
-  maxDamage: 15
+  minDamage: 20
+  maxDamage: 30
   criticalChance: 0.2
   criticalMultiplier: 1.5

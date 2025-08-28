@@ -2,11 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class RamBattleManager : MonoBehaviour
 {
-    public RamFighter ramA;
-    public RamFighter ramB;
+    private RamFighter ramA;
+    private RamFighter ramB;
     public TMP_Text winnerText;
     public TMP_Text combatLogText;
     public float postBattleDelay = 3f;
@@ -15,8 +16,24 @@ public class RamBattleManager : MonoBehaviour
     private bool ramBAttackComplete = false;
     private Coroutine battleCoroutine;
     [SerializeField] GameObject[] ramPrefabs;
+    [SerializeField] GameObject resultpanel;
+    [SerializeField] Button replayButton;
+    [SerializeField] Button exitButton;
 
-    
+
+    void Start()
+    {
+        replayButton.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        });
+        exitButton.onClick.AddListener(() =>
+        {
+            Application.Quit();
+        });
+    }
+
+
 
     private void OnDestroy()
     {
@@ -78,9 +95,9 @@ public class RamBattleManager : MonoBehaviour
         if (combatLogText != null)
         {
             if (ramATurnFirst)
-                combatLogText.text += ramA.GetRamName() + " wins the initiative!\n";
+                combatLogText.text += ramA.GetRamName() + " wins the initiative!";
             else
-                combatLogText.text += ramB.GetRamName() + " wins the initiative!\n";
+                combatLogText.text += ramB.GetRamName() + " wins the initiative!";
         }
 
         yield return new WaitForSeconds(1f);
@@ -90,7 +107,7 @@ public class RamBattleManager : MonoBehaviour
             if (ramATurnFirst)
             {
                 if (combatLogText != null)
-                    combatLogText.text += ramA.GetRamName() + " attacks!\n";
+                    combatLogText.text += ramA.GetRamName() + " attacks!";
 
                 ramAAttackComplete = false;
                 ramA.InitiateAttackSequence();
@@ -101,7 +118,7 @@ public class RamBattleManager : MonoBehaviour
                 if (!ramB.IsAlive()) break;
 
                 if (combatLogText != null)
-                    combatLogText.text += ramB.GetRamName() + " attacks!\n";
+                    combatLogText.text += ramB.GetRamName() + " attacks!";
 
                 ramBAttackComplete = false;
                 ramB.InitiateAttackSequence();
@@ -112,7 +129,7 @@ public class RamBattleManager : MonoBehaviour
             else
             {
                 if (combatLogText != null)
-                    combatLogText.text += ramB.GetRamName() + " attacks!\n";
+                    combatLogText.text += ramB.GetRamName() + " attacks!";
 
                 ramBAttackComplete = false;
                 ramB.InitiateAttackSequence();
@@ -123,7 +140,7 @@ public class RamBattleManager : MonoBehaviour
                 if (!ramA.IsAlive()) break;
 
                 if (combatLogText != null)
-                    combatLogText.text += ramA.GetRamName() + " attacks!\n";
+                    combatLogText.text += ramA.GetRamName() + " attacks!";
 
                 ramAAttackComplete = false;
                 ramA.InitiateAttackSequence();
@@ -138,21 +155,21 @@ public class RamBattleManager : MonoBehaviour
             if (winnerText != null)
                 winnerText.text = "Winner: " + ramA.GetRamName();
             if (combatLogText != null)
-                combatLogText.text += ramA.GetRamName() + " is victorious!\n";
+                combatLogText.text += ramA.GetRamName() + " is victorious!";
         }
         else if (ramB.IsAlive())
         {
             if (winnerText != null)
                 winnerText.text = "Winner: " + ramB.GetRamName();
             if (combatLogText != null)
-                combatLogText.text += ramB.GetRamName() + " is victorious!\n";
+                combatLogText.text += ramB.GetRamName() + " is victorious!";
         }
         else
         {
             if (winnerText != null)
                 winnerText.text = "Draw!";
             if (combatLogText != null)
-                combatLogText.text += "Both rams fell in battle!\n";
+                combatLogText.text += "Both rams fell in battle!";
         }
 
         yield return new WaitForSeconds(postBattleDelay);
